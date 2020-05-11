@@ -1,0 +1,24 @@
+<!-- map_merge global-->
+
+<launch>
+
+<arg name="x_origin" default="100" />
+<arg name="y_origin" default="100" />
+
+<!-- group ns="map_merge" -->
+  <node pkg="multirobot_map_merge_updated" type="map_merge_updated" respawn="false" name="map_merge_global">
+    <param name="robot_map_topic" value="local_map"/>
+    <param name="robot_namespace" value="/Agent_"/>
+    <param name="merged_map_topic" value="/global_map"/>
+    <param name="world_frame" value="merged_map"/>
+    <param name="known_init_poses" value="true"/>
+    <param name="merging_rate" value="5.0"/>
+    <param name="discovery_rate" value="0.05"/>
+    <param name="estimation_rate" value="0.5"/>
+    <param name="estimation_confidence" value="1.0"/>
+  </node>
+
+  <node pkg="tf" type="static_transform_publisher" name="world_to_maps_tf_broadcaster"  args="$(arg x_origin) $(arg y_origin) 0 0 0 0 merged_map map 2"/>
+
+<!-- /group -->
+</launch>
